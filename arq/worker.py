@@ -459,7 +459,7 @@ class Worker:
             try:
                 async with async_timeout.timeout(timeout_s):
                     result = await function.coroutine(ctx, *args, **kwargs)
-            except Exception as e:
+            except (Exception, asyncio.CancelledError) as e:
                 exc_extra = getattr(e, 'extra', None)
                 if callable(exc_extra):
                     exc_extra = exc_extra()
